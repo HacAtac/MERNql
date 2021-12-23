@@ -12,6 +12,7 @@ import {
   InMemoryCache, // InMemoryCache is the cache that stores the data from the server
   createHttpLink, // createHttpLink is a function that creates the link to the server
 } from "@apollo/client"; // Compare this snippet from client\src\components\Header\index.js:
+import { setContext } from "@apollo/client/link/context";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -22,8 +23,18 @@ const httpLink = createHttpLink({
   uri: "/graphql",
 });
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
