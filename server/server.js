@@ -1,6 +1,7 @@
 const express = require("express");
 //import ApolloServer from 'apollo-server-express'; // <-- this is the ApolloServer class its a graphql server
 const { ApolloServer } = require("apollo-server-express");
+const { authMiddleware } = require("./utils/auth");
 
 // import our typeDefs and resolvers
 const { typeDefs, resolvers } = require("./schemas");
@@ -14,7 +15,7 @@ const startServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    // context: authMiddleware,
+    context: authMiddleware,
   });
 
   // Start the Apollo server
@@ -35,6 +36,6 @@ app.use(express.json());
 
 db.once("open", () => {
   app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
+    console.log(`(>'.')>||----->${PORT}!`);
   });
 });
