@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 
 const httpLink = createHttpLink({
   //using this function to create the link to the server and pass in the url to the server and the headers to the server
-  uri: "http://localhost:3001/graphql",
+  uri: "/graphql",
 });
 
 const client = new ApolloClient({
